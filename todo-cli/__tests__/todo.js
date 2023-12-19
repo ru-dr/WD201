@@ -2,10 +2,10 @@
 
 const todoList = require("../todo");
 
-const { all, markAsComplete, add, overdue, dueLater, dueToday } = todoList();
+const { all, markAsComplete, add, overdue, dueLater, dueToday, toDisplayableList } = todoList();
 
 const formattedDate = (d) => {
-  return d.toLocaleDateString("en-CA");
+  return d.toISOString().split("T")[0];
 };
 let dateToday = new Date();
 let today = formattedDate(new Date());
@@ -18,22 +18,17 @@ let tomorrow = formattedDate(
 
 describe("Todolist Test Suit", () => {
   beforeAll(() => {
-    add({
-      title: "todo - 1",
-      completed: false,
-      dueDate: yesterday,
-    });
-    add({
-      title: "todo - 2",
-      completed: false,
-      dueDate: tomorrow,
-    });
+    add({ title: "Submit assignment", dueDate: yesterday, completed: false });
+    add({ title: "Pay rent", dueDate: today, completed: true });
+    add({ title: "Service Vehicle", dueDate: today, completed: false });
+    add({ title: "File taxes", dueDate: tomorrow, completed: false });
+    add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
   });
 
   test("Add a new todo in list", () => {
     const todoItemCount = all.length;
     add({
-      title: "todo - 3",
+      title: "New Todo",
       completed: false,
       dueDate: today,
     });
@@ -71,5 +66,27 @@ describe("Todolist Test Suit", () => {
         return todo.dueDate > today;
       })
     ).toBe(true);
+  });
+
+  // Displayable list tests
+  test("Displayable list for overdue items", () => {
+    const overdues = overdue();
+    const formattedOverdues = toDisplayableList(overdues);
+    // Add your expectations for the formatted displayable list
+    console.log("Formatted Overdue List:\n", formattedOverdues);
+  });
+
+  test("Displayable list for due today items", () => {
+    const itemsDueToday = dueToday();
+    const formattedItemsDueToday = toDisplayableList(itemsDueToday);
+    // Add your expectations for the formatted displayable list
+    console.log("Formatted Due Today List:\n", formattedItemsDueToday);
+  });
+
+  test("Displayable list for due later items", () => {
+    const itemsDueLater = dueLater();
+    const formattedItemsDueLater = toDisplayableList(itemsDueLater);
+    // Add your expectations for the formatted displayable list
+    console.log("Formatted Due Later List:\n", formattedItemsDueLater);
   });
 });
