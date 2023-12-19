@@ -1,44 +1,72 @@
 const todoList = () => {
   all = [];
+
   const add = (todoItem) => {
     all.push(todoItem);
   };
+
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
 
+  const formattedDate = (d) => {
+    return d.toISOString().split("T")[0];
+  };
+
   const overdue = () => {
     const today = new Date();
-    return all.filter(
-      (item) => !item.completed && new Date(item.dueDate) < today
-    );
+    const overdueItems = [];
+    for (let i = 0; i < all.length; i++) {
+      if (all[i].dueDate < formattedDate(today)) {
+        overdueItems.push(all[i]);
+      }
+    }
+
+    return overdueItems;
   };
 
   const dueToday = () => {
     const today = new Date();
-    return all.filter(
-      (item) => new Date(item.dueDate).toDateString() === today.toDateString()
-    );
+    const dueTodayItems = [];
+    for (let i = 0; i < all.length; i++) {
+      if (all[i].dueDate == formattedDate(today)) {
+        dueTodayItems.push(all[i]);
+      }
+    }
+
+    return dueTodayItems;
   };
 
   const dueLater = () => {
     const today = new Date();
-    return all.filter((item) => new Date(item.dueDate) > today);
+    const dueLaterItems = [];
+    for (let i = 0; i < all.length; i++) {
+      if (all[i].dueDate > formattedDate(today)) {
+        dueLaterItems.push(all[i]);
+      }
+    }
+
+    return dueLaterItems;
   };
 
   const toDisplayableList = (list) => {
-    if (list.length === 0) {
-      return "No items";
+  let displayableList = "";
+  const today = formattedDate(new Date());
+
+  for (let i = 0; i < list.length; i++) {
+    const taskStatus = list[i].completed ? "[x]" : "[ ]";
+    const dueDate = formattedDate(new Date(list[i].dueDate));
+    const duePart = dueDate !== today ? ` ${dueDate}` : "";
+
+    displayableList += `${taskStatus} ${list[i].title}${duePart}`;
+
+    if (i < list.length - 1) {
+      displayableList += "\n"; // Add only one newline character between items
     }
-    return list
-      .map(
-        (item) =>
-          `[${item.completed ? "x" : " "}] ${item.title} ${
-            item.dueDate ? `- Due: ${item.dueDate}` : ""
-          }`
-      )
-      .join("\n");
-  };
+  }
+
+  return displayableList;
+};
 
   return {
     all,
