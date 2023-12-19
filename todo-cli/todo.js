@@ -17,17 +17,13 @@ const todoList = () => {
   const dueToday = () => {
     const today = new Date();
     return all.filter(
-      (item) =>
-        !item.completed &&
-        new Date(item.dueDate).toDateString() === today.toDateString()
+      (item) => new Date(item.dueDate).toDateString() === today.toDateString()
     );
   };
 
   const dueLater = () => {
     const today = new Date();
-    return all.filter(
-      (item) => !item.completed && new Date(item.dueDate) > today
-    );
+    return all.filter((item) => new Date(item.dueDate) > today);
   };
 
   const toDisplayableList = (list) => {
@@ -35,7 +31,12 @@ const todoList = () => {
       return "No items";
     }
     return list
-      .map((item) => `${item.title} - Due: ${item.dueDate}`)
+      .map(
+        (item) =>
+          `[${item.completed ? "x" : " "}] ${item.title} ${
+            item.dueDate ? `- Due: ${item.dueDate}` : ""
+          }`
+      )
       .join("\n");
   };
 
