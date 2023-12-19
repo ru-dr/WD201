@@ -67,26 +67,4 @@ describe("Todolist Test Suit", () => {
       })
     ).toBe(true);
   });
-
-  // Displayable list tests
-  test("Displayable list for overdue items", () => {
-    const overdues = overdue();
-    const formattedOverdues = toDisplayableList(overdues);
-    // Add your expectations for the formatted displayable list
-    console.log("Formatted Overdue List:\n", formattedOverdues);
-  });
-
-  test("Displayable list for due today items", () => {
-    const itemsDueToday = dueToday();
-    const formattedItemsDueToday = toDisplayableList(itemsDueToday);
-    // Add your expectations for the formatted displayable list
-    console.log("Formatted Due Today List:\n", formattedItemsDueToday);
-  });
-
-  test("Displayable list for due later items", () => {
-    const itemsDueLater = dueLater();
-    const formattedItemsDueLater = toDisplayableList(itemsDueLater);
-    // Add your expectations for the formatted displayable list
-    console.log("Formatted Due Later List:\n", formattedItemsDueLater);
-  });
 });
