@@ -22,13 +22,14 @@ describe("Todolist Test Suit", () => {
       title: "todo - 1",
       completed: false,
       dueDate: yesterday,
-    }),
-      add({
-        title: "todo - 2",
-        completed: false,
-        dueDate: tomorrow,
-      });
+    });
+    add({
+      title: "todo - 2",
+      completed: false,
+      dueDate: tomorrow,
+    });
   });
+
   test("Add a new todo in list", () => {
     const todoItemCount = all.length;
     add({
@@ -38,11 +39,13 @@ describe("Todolist Test Suit", () => {
     });
     expect(all.length).toBe(todoItemCount + 1);
   });
+
   test("should mark a todo as complete", () => {
     expect(all[0].completed).toBe(false);
     markAsComplete(0);
     expect(all[0].completed).toBe(true);
   });
+
   test("retrieval of overdue items", () => {
     const todolist = overdue();
     expect(
@@ -51,6 +54,7 @@ describe("Todolist Test Suit", () => {
       })
     ).toBe(true);
   });
+
   test("retrieval of due today items", () => {
     const todolist = dueToday();
     expect(
@@ -59,6 +63,7 @@ describe("Todolist Test Suit", () => {
       })
     ).toBe(true);
   });
+
   test("retrieval of due later items", () => {
     const todolist = dueLater();
     expect(
